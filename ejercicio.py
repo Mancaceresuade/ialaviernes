@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 # Lista global para almacenar los artículos
 articulos = []
-
+# cambio
 # Función para eliminar un artículo seleccionado
 def eliminar_articulo():
     seleccion = lista_articulos.curselection()
