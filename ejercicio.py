@@ -3,6 +3,42 @@ from tkinter import messagebox
 
 # Lista global para almacenar los artículos
 articulos = []
+
+
+
+def modificar_articulo():
+    seleccion = lista_articulos.curselection()
+    if seleccion:
+        index = seleccion[0]
+        codigo = entry_codigo.get()
+        nombre = entry_nombre.get()
+        precio = entry_precio.get()
+        # Actualizar el artículo
+        articulos[index] = {"codigo": codigo, "nombre": nombre, "precio": float(precio)if precio else 0}
+        actualizar_lista()
+        # Limpiar los campos
+        entry_codigo.delete(0, tk.END)
+        entry_nombre.delete(0, tk.END)
+        entry_precio.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Advertencia", "Debes seleccionar un artículo para modificar")
+
+# Función para seleccionar un artículo para modificar
+def seleccionar_articulo():
+    seleccion = lista_articulos.curselection()
+    if seleccion:
+        index = seleccion[0]
+        articulo = articulos[index]
+        # Llenar los campos con los datos seleccionados
+        entry_codigo.delete(0, tk.END)
+        entry_nombre.delete(0, tk.END)
+        entry_precio.delete(0, tk.END)
+        entry_codigo.insert(tk.END, articulo["codigo"])
+        entry_nombre.insert(tk.END, articulo["nombre"])
+        entry_precio.insert(tk.END, articulo["precio"])
+
+
+
 # cambio
 # Función para eliminar un artículo seleccionado
 def eliminar_articulo():
@@ -31,7 +67,7 @@ def agregar_articulo():
 def actualizar_lista():
     lista_articulos.delete(0, tk.END) # Limpiar la lista
     for articulo in articulos:
-        lista_articulos.insert(tk.END, f"{articulo['codigo']} - {articulo['nombre']} - {articulo['precio']:,.2f}")
+        lista_articulos.insert(tk.END, f"{articulo['codigo']} - {articulo['nombre']} - {articulo['precio']:.2f}")
 
 # Función para cerrar la ventana
 def cerrar():
@@ -56,6 +92,9 @@ entry_precio.grid(row=2, column=1)
 tk.Button(root, text="Agregar", command=agregar_articulo).grid(row=3, column=0,pady=10)
 
 tk.Button(root, text="Eliminar", command=eliminar_articulo).grid(row=3, column=1, pady=10)
+
+tk.Button(root, text="Seleccionar", command=seleccionar_articulo).grid(row=3, column=2, pady=5)
+tk.Button(root, text="Modificar", command=modificar_articulo).grid(row=3, column=4, pady=5)
 
 lista_articulos = tk.Listbox(root, width=50, height=10)
 lista_articulos.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
